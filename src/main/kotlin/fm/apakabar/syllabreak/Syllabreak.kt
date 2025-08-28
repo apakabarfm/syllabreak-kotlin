@@ -15,9 +15,9 @@ class Syllabreak
 
         private fun loadRules(): MetaRule {
             val mapper = ObjectMapper(YAMLFactory()).registerModule(kotlinModule())
-            val input: InputStream =
+            val input = requireNotNull(
                 this::class.java.getResourceAsStream("/rules.yaml")
-                    ?: throw IllegalStateException("Cannot load rules.yaml")
+            ) { "Cannot load rules.yaml" }
 
             val data: RulesYaml = input.use { mapper.readValue(it) }
             val rules =
@@ -78,7 +78,8 @@ class Syllabreak
         }
 
         private fun getRuleByLang(lang: String): LanguageRule {
-            return metaRule.rules.find { it.lang == lang }
-                ?: throw IllegalArgumentException("Language '$lang' is not supported")
+            return requireNotNull(metaRule.rules.find { it.lang == lang }) {
+                "Language '$lang' is not supported"
+            }
         }
     }
