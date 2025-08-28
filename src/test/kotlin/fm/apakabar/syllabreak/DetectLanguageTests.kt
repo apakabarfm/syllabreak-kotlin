@@ -15,9 +15,10 @@ class DetectLanguageTests {
     @TestFactory
     fun detectLanguageTests(): Collection<DynamicTest> {
         val mapper = ObjectMapper(YAMLFactory()).registerModule(kotlinModule())
-        val input = requireNotNull(
-            this::class.java.getResourceAsStream("/detect_language_tests.yaml")
-        ) { "Cannot load detect_language_tests.yaml" }
+        val input =
+            requireNotNull(
+                this::class.java.getResourceAsStream("/detect_language_tests.yaml"),
+            ) { "Cannot load detect_language_tests.yaml" }
 
         val data: TestData = input.use { mapper.readValue(it) }
         val tests = mutableListOf<DynamicTest>()

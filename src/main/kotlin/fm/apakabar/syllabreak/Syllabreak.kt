@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
-import java.io.InputStream
 
 class Syllabreak
     @JvmOverloads
@@ -15,9 +14,10 @@ class Syllabreak
 
         private fun loadRules(): MetaRule {
             val mapper = ObjectMapper(YAMLFactory()).registerModule(kotlinModule())
-            val input = requireNotNull(
-                this::class.java.getResourceAsStream("/rules.yaml")
-            ) { "Cannot load rules.yaml" }
+            val input =
+                requireNotNull(
+                    this::class.java.getResourceAsStream("/rules.yaml"),
+                ) { "Cannot load rules.yaml" }
 
             val data: RulesYaml = input.use { mapper.readValue(it) }
             val rules =

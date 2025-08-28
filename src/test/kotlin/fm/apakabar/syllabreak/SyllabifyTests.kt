@@ -25,9 +25,10 @@ class SyllabifyTests {
     @TestFactory
     fun syllabifyTests(): Collection<DynamicTest> {
         val mapper = ObjectMapper(YAMLFactory()).registerModule(kotlinModule())
-        val input = requireNotNull(
-            this::class.java.getResourceAsStream("/syllabify_tests.yaml")
-        ) { "Cannot load syllabify_tests.yaml" }
+        val input =
+            requireNotNull(
+                this::class.java.getResourceAsStream("/syllabify_tests.yaml"),
+            ) { "Cannot load syllabify_tests.yaml" }
 
         val data: TestData = input.use { mapper.readValue(it) }
         val tests = mutableListOf<DynamicTest>()
