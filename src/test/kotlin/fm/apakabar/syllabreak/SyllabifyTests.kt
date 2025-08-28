@@ -1,11 +1,16 @@
 package fm.apakabar.syllabreak
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.fasterxml.jackson.module.kotlin.kotlinModule
+import com.fasterxml.jackson.module.kotlin.readValue
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
-import org.yaml.snakeyaml.Yaml
 import kotlin.test.assertEquals
 
 class SyllabifyTests {
+    data class TestData(val tests: List<TestSection>)
+
     data class TestSection(
         val section: String,
         val lang: String?,
@@ -19,35 +24,26 @@ class SyllabifyTests {
 
     @TestFactory
     fun syllabifyTests(): Collection<DynamicTest> {
-        val yaml = Yaml()
+        val mapper = ObjectMapper(YAMLFactory()).registerModule(kotlinModule())
         val input =
             this::class.java.getResourceAsStream("/syllabify_tests.yaml")
                 ?: throw IllegalStateException("Cannot load syllabify_tests.yaml")
 
-        val data = input.use { yaml.load<Map<String, Any>>(it) }
-        val testSections = data["tests"] as List<Map<String, Any>>
-
+        val data: TestData = input.use { mapper.readValue(it) }
         val tests = mutableListOf<DynamicTest>()
         val syllabifier = Syllabreak("-") // Use regular hyphen for tests
 
-        for (section in testSections) {
-            val sectionName = section["section"] as String
-            val lang = section["lang"] as String?
-            val cases = section["cases"] as List<Map<String, Any>>
-
-            for (case in cases) {
-                val text = case["text"] as String
-                val want = case["want"] as String
-
+        for (section in data.tests) {
+            for (case in section.cases) {
                 tests.add(
-                    DynamicTest.dynamicTest("[$sectionName] $text -> $want") {
+                    DynamicTest.dynamicTest("[${section.section}] ${case.text} -> ${case.want}") {
                         val result =
-                            if (lang != null) {
-                                syllabifier.syllabify(text, lang)
+                            if (section.lang != null) {
+                                syllabifier.syllabify(case.text, section.lang)
                             } else {
-                                syllabifier.syllabify(text)
+                                syllabifier.syllabify(case.text)
                             }
-                        assertEquals(want, result, "Failed for '$text': got '$result', want '$want'")
+                        assertEquals(case.want, result, "Failed for '${case.text}': got '$result', want '${case.want}'")
                     },
                 )
             }

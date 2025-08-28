@@ -1,6 +1,9 @@
 package fm.apakabar.syllabreak
 
-import org.yaml.snakeyaml.Yaml
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
+import com.fasterxml.jackson.module.kotlin.kotlinModule
+import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.InputStream
 
 class Syllabreak
@@ -11,17 +14,31 @@ class Syllabreak
         private val metaRule: MetaRule = loadRules()
 
         private fun loadRules(): MetaRule {
-            val yaml = Yaml()
+            val mapper = ObjectMapper(YAMLFactory()).registerModule(kotlinModule())
             val input: InputStream =
                 this::class.java.getResourceAsStream("/rules.yaml")
                     ?: throw IllegalStateException("Cannot load rules.yaml")
 
-            input.use {
-                val data = yaml.load<Map<String, Any>>(it)
-                val rulesData = data["rules"] as List<Map<String, Any>>
-                val rules = rulesData.map { LanguageRule(it) }
-                return MetaRule(rules)
-            }
+            val data: RulesYaml = input.use { mapper.readValue(it) }
+            val rules =
+                data.rules.map { ruleYaml ->
+                    LanguageRule(
+                        lang = ruleYaml.lang,
+                        vowels = ruleYaml.vowels.toSet(),
+                        consonants = ruleYaml.consonants.toSet(),
+                        sonorants = ruleYaml.sonorants.toSet(),
+                        clustersKeepNext = (ruleYaml.clustersKeepNext ?: emptyList()).toSet(),
+                        dontSplitDigraphs = (ruleYaml.dontSplitDigraphs ?: emptyList()).toSet(),
+                        digraphVowels = (ruleYaml.digraphVowels ?: emptyList()).toSet(),
+                        glides = (ruleYaml.glides ?: "").toSet(),
+                        syllabicConsonants = (ruleYaml.syllabicConsonants ?: "").toSet(),
+                        modifiersAttachLeft = (ruleYaml.modifiersAttachLeft ?: "").toSet(),
+                        modifiersAttachRight = (ruleYaml.modifiersAttachRight ?: "").toSet(),
+                        modifiersSeparators = (ruleYaml.modifiersSeparators ?: "").toSet(),
+                        clustersOnlyAfterLong = (ruleYaml.clustersOnlyAfterLong ?: emptyList()).toSet(),
+                    )
+                }
+            return MetaRule(rules)
         }
 
         fun detectLanguage(text: String): List<String> {

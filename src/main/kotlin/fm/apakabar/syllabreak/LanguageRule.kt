@@ -22,22 +22,6 @@ data class LanguageRule(
     var uniqueChars: Set<Char> = emptySet()
     lateinit var meta: MetaRule
 
-    constructor(data: Map<String, Any>) : this(
-        lang = data["lang"] as String,
-        vowels = (data["vowels"] as String).toSet(),
-        consonants = (data["consonants"] as String).toSet(),
-        sonorants = (data["sonorants"] as String).toSet(),
-        clustersKeepNext = (data["clusters_keep_next"] as? List<*>)?.map { it.toString() }?.toSet() ?: emptySet(),
-        dontSplitDigraphs = (data["dont_split_digraphs"] as? List<*>)?.map { it.toString() }?.toSet() ?: emptySet(),
-        digraphVowels = (data["digraph_vowels"] as? List<*>)?.map { it.toString() }?.toSet() ?: emptySet(),
-        glides = (data["glides"] as? String)?.toSet() ?: emptySet(),
-        syllabicConsonants = (data["syllabic_consonants"] as? String)?.toSet() ?: emptySet(),
-        modifiersAttachLeft = (data["modifiers_attach_left"] as? String)?.toSet() ?: emptySet(),
-        modifiersAttachRight = (data["modifiers_attach_right"] as? String)?.toSet() ?: emptySet(),
-        modifiersSeparators = (data["modifiers_separators"] as? String)?.toSet() ?: emptySet(),
-        clustersOnlyAfterLong = (data["clusters_only_after_long"] as? List<*>)?.map { it.toString() }?.toSet() ?: emptySet(),
-    )
-
     fun calculateMatchScore(text: String): Double {
         if (text.isEmpty()) return 0.0
 
