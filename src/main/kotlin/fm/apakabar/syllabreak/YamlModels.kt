@@ -11,21 +11,21 @@ data class RuleYaml(
     val vowels: String,
     val consonants: String,
     val sonorants: String,
-    @JsonProperty("clusters_keep_next")
+    @field:JsonProperty("clusters_keep_next")
     val clustersKeepNext: List<String>?,
-    @JsonProperty("dont_split_digraphs")
+    @field:JsonProperty("dont_split_digraphs")
     val dontSplitDigraphs: List<String>?,
-    @JsonProperty("digraph_vowels")
+    @field:JsonProperty("digraph_vowels")
     val digraphVowels: List<String>?,
     val glides: String?,
-    @JsonProperty("syllabic_consonants")
+    @field:JsonProperty("syllabic_consonants")
     val syllabicConsonants: String?,
-    @JsonProperty("modifiers_attach_left")
+    @field:JsonProperty("modifiers_attach_left")
     val modifiersAttachLeft: String?,
-    @JsonProperty("modifiers_attach_right")
+    @field:JsonProperty("modifiers_attach_right")
     val modifiersAttachRight: String?,
-    @JsonProperty("modifiers_separators")
+    @field:JsonProperty("modifiers_separators")
     val modifiersSeparators: String?,
-    @JsonProperty("clusters_only_after_long")
+    @field:JsonProperty("clusters_only_after_long")
     val clustersOnlyAfterLong: List<String>?,
 )

@@ -14,13 +14,12 @@ data class LanguageRule(
     val modifiersAttachRight: Set<Char>,
     val modifiersSeparators: Set<Char>,
     val clustersOnlyAfterLong: Set<String> = emptySet(),
+    internal val uniqueChars: Set<Char> = emptySet(),
+    internal val meta: MetaRule? = null,
 ) {
     val allChars: Set<Char> =
         vowels + consonants + modifiersAttachLeft +
             modifiersAttachRight + modifiersSeparators
-
-    var uniqueChars: Set<Char> = emptySet()
-    lateinit var meta: MetaRule
 
     fun calculateMatchScore(text: String): Double {
         if (text.isEmpty()) return 0.0

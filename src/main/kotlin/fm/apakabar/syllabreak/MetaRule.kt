@@ -1,28 +1,15 @@
 package fm.apakabar.syllabreak
 
-class MetaRule(val rules: List<LanguageRule>) {
-    init {
-        calculateUniqueChars()
-        linkRulesToMeta()
-    }
-
-    private fun calculateUniqueChars() {
-        for (rule in rules) {
-            rule.uniqueChars =
-                rule.allChars.toMutableSet().apply {
-                    for (otherRule in rules) {
-                        if (otherRule.lang != rule.lang) {
-                            removeAll(otherRule.allChars)
-                        }
-                    }
+class MetaRule(initialRules: List<LanguageRule>) {
+    val rules: List<LanguageRule> = initialRules.map { rule ->
+        val uniqueChars = rule.allChars.toMutableSet().apply {
+            for (otherRule in initialRules) {
+                if (otherRule.lang != rule.lang) {
+                    removeAll(otherRule.allChars)
                 }
+            }
         }
-    }
-
-    private fun linkRulesToMeta() {
-        for (rule in rules) {
-            rule.meta = this
-        }
+        rule.copy(uniqueChars = uniqueChars, meta = this)
     }
 
     fun getAllKnownChars(): Set<Char> {
