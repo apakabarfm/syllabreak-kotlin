@@ -1,6 +1,5 @@
-# syllabreak-kotlin
-
 [![Tests](https://github.com/apakabarfm/syllabreak-kotlin/actions/workflows/tests.yml/badge.svg)](https://github.com/apakabarfm/syllabreak-kotlin/actions/workflows/tests.yml)
+# syllabreak-kotlin
 
 Multilingual library for accurate and deterministic hyphenation and syllable counting without relying on dictionaries.
 
