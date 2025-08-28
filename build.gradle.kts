@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.23"
+    kotlin("jvm") version "2.2.10"
     `java-library`
     `maven-publish`
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
