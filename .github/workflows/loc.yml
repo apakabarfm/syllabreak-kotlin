@@ -1,0 +1,38 @@
+name: Lines of Code
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  loc:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Count Lines of Code
+      id: loc
+      uses: djdefi/gitahead@main
+      with:
+        file_extensions: 'kt,kts'
+    
+    - name: Display LOC Summary
+      run: |
+        echo "## Lines of Code Summary" >> $GITHUB_STEP_SUMMARY
+        echo "| Metric | Count |" >> $GITHUB_STEP_SUMMARY
+        echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+        echo "| Total Lines | ${{ steps.loc.outputs.total_lines }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Code Lines | ${{ steps.loc.outputs.code_lines }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Blank Lines | ${{ steps.loc.outputs.blank_lines }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Comment Lines | ${{ steps.loc.outputs.comment_lines }} |" >> $GITHUB_STEP_SUMMARY
+    
+    - name: Alternative LOC with cloc
+      run: |
+        sudo apt-get update && sudo apt-get install -y cloc
+        echo "## Detailed LOC Analysis" >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        cloc . --exclude-dir=build,.gradle --include-lang=Kotlin >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
