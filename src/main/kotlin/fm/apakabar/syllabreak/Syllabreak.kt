@@ -3,7 +3,7 @@ package fm.apakabar.syllabreak
 import org.yaml.snakeyaml.Yaml
 import java.io.InputStream
 
-class Syllabreak(
+class Syllabreak @JvmOverloads constructor(
     private val softHyphen: String = "\u00AD"
 ) {
     private val metaRule: MetaRule = loadRules()
@@ -13,11 +13,12 @@ class Syllabreak(
         val input: InputStream = this::class.java.getResourceAsStream("/rules.yaml")
             ?: throw IllegalStateException("Cannot load rules.yaml")
         
-        val data = yaml.load<Map<String, Any>>(input)
-        val rulesData = data["rules"] as List<Map<String, Any>>
-        val rules = rulesData.map { LanguageRule(it) }
-        
-        return MetaRule(rules)
+        input.use {
+            val data = yaml.load<Map<String, Any>>(it)
+            val rulesData = data["rules"] as List<Map<String, Any>>
+            val rules = rulesData.map { LanguageRule(it) }
+            return MetaRule(rules)
+        }
     }
     
     fun detectLanguage(text: String): List<String> {
@@ -25,6 +26,7 @@ class Syllabreak(
         return matchingRules.map { it.lang }
     }
     
+    @JvmOverloads
     fun syllabify(text: String, lang: String? = null): String {
         if (text.isEmpty()) return text
         
