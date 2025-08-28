@@ -2,19 +2,19 @@ package fm.apakabar.syllabreak
 
 enum class TokenType {
     WORD,
-    NON_WORD
+    NON_WORD,
 }
 
 enum class TokenClass {
     VOWEL,
     CONSONANT,
     SEPARATOR,
-    OTHER
+    OTHER,
 }
 
 data class Token(
     val text: String,
-    val type: TokenType
+    val type: TokenType,
 )
 
 data class SyllableToken(
@@ -23,5 +23,5 @@ data class SyllableToken(
     var isGlide: Boolean = false,
     var isModifier: Boolean = false,
     val startIdx: Int = 0,
-    var endIdx: Int = 0
+    var endIdx: Int = 0,
 )

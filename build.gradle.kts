@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm") version "1.9.23"
     `java-library`
     `maven-publish`
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
 }
 
 group = "fm.apakabar"
@@ -13,7 +14,7 @@ repositories {
 
 dependencies {
     implementation("org.yaml:snakeyaml:2.2")
-    
+
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
     testImplementation("org.assertj:assertj-core:3.25.3")
@@ -37,5 +38,17 @@ publishing {
         create<MavenPublication>("maven") {
             from(components["java"])
         }
+    }
+}
+
+ktlint {
+    version.set("1.2.1")
+    android.set(false)
+    outputToConsole.set(true)
+    outputColorName.set("RED")
+    ignoreFailures.set(false)
+    filter {
+        exclude("**/generated/**")
+        include("**/kotlin/**")
     }
 }

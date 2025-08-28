@@ -13,14 +13,15 @@ data class LanguageRule(
     val modifiersAttachLeft: Set<Char>,
     val modifiersAttachRight: Set<Char>,
     val modifiersSeparators: Set<Char>,
-    val clustersOnlyAfterLong: Set<String> = emptySet()
+    val clustersOnlyAfterLong: Set<String> = emptySet(),
 ) {
-    val allChars: Set<Char> = vowels + consonants + modifiersAttachLeft + 
-                               modifiersAttachRight + modifiersSeparators
-    
+    val allChars: Set<Char> =
+        vowels + consonants + modifiersAttachLeft +
+            modifiersAttachRight + modifiersSeparators
+
     var uniqueChars: Set<Char> = emptySet()
     lateinit var meta: MetaRule
-    
+
     constructor(data: Map<String, Any>) : this(
         lang = data["lang"] as String,
         vowels = (data["vowels"] as String).toSet(),
@@ -34,25 +35,25 @@ data class LanguageRule(
         modifiersAttachLeft = (data["modifiers_attach_left"] as? String)?.toSet() ?: emptySet(),
         modifiersAttachRight = (data["modifiers_attach_right"] as? String)?.toSet() ?: emptySet(),
         modifiersSeparators = (data["modifiers_separators"] as? String)?.toSet() ?: emptySet(),
-        clustersOnlyAfterLong = (data["clusters_only_after_long"] as? List<*>)?.map { it.toString() }?.toSet() ?: emptySet()
+        clustersOnlyAfterLong = (data["clusters_only_after_long"] as? List<*>)?.map { it.toString() }?.toSet() ?: emptySet(),
     )
-    
+
     fun calculateMatchScore(text: String): Double {
         if (text.isEmpty()) return 0.0
-        
+
         val cleanText = text.lowercase().filter { it.isLetter() }
         if (cleanText.isEmpty()) return 0.0
-        
+
         var matches = 0
         var total = 0
-        
+
         for (char in cleanText) {
             if (char in allChars) {
                 matches++
             }
             total++
         }
-        
+
         return if (total > 0) matches.toDouble() / total else 0.0
     }
 }
