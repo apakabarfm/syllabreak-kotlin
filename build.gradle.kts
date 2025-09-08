@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "2.2.10"
     `java-library`
     `maven-publish`
-    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
+    id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
 }
 
 group = "fm.apakabar"
