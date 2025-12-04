@@ -30,4 +30,6 @@ data class RuleYaml(
     val clustersOnlyAfterLong: List<String>?,
     @field:JsonProperty("split_hiatus")
     val splitHiatus: Boolean?,
+    @field:JsonProperty("final_semivowels")
+    val finalSemivowels: String?,
 )

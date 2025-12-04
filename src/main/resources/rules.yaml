@@ -94,6 +94,65 @@ rules:
     modifiers_attach_right: ""
     modifiers_separators: ""
 
+  - lang: "ron"
+    vowels: "aeiouăâî"
+    consonants: "bcdfghjklmnprsștțvwxz"
+    sonorants: "lmnr"
+    # Only C + l/r clusters stay together (DOOM orthographic norm)
+    # sp, st, sc, șt split between vowels (e.g., răs-puns, dra-gos-te)
+    clusters_keep_next: ["bl", "br", "cl", "cr", "dr", "fl", "fr", "gl", "gr", "pl", "pr", "tr", "vr"]
+    dont_split_digraphs: ["ch", "gh"]
+    # ea, oa are true diphthongs (falling); ia, iu are rising diphthongs
+    digraph_vowels: ["ea", "oa", "ia", "iu"]
+    glides: ""
+    syllabic_consonants: ""
+    modifiers_attach_left: ""
+    modifiers_attach_right: ""
+    modifiers_separators: ""
+    # Split adjacent vowels that are not diphthongs (e.g., pri-e-teni)
+    split_hiatus: true
+    # Final -i after consonant is a semivowel (palatalization), not a separate syllable
+    final_semivowels: "i"
+
+  - lang: "spa"
+    vowels: "aeiouáéíóúü"
+    consonants: "bcdfghjklmnñpqrstvwxyz"
+    sonorants: "lmnñr"
+    clusters_keep_next: ["bl", "br", "cl", "cr", "dr", "fl", "fr", "gl", "gr", "pl", "pr", "tr"]
+    dont_split_digraphs: ["ch", "ll", "rr", "qu", "gu"]
+    digraph_vowels: ["ai", "au", "ei", "eu", "oi", "ou", "ia", "ie", "io", "iu", "ua", "ue", "ui", "uo"]
+    glides: "iu"
+    syllabic_consonants: ""
+    modifiers_attach_left: ""
+    modifiers_attach_right: ""
+    modifiers_separators: ""
+
+  - lang: "por"
+    vowels: "aeiouáàâãéêíóôõúü"
+    consonants: "bcçdfghjklmnpqrstvwxz"
+    sonorants: "lmnr"
+    clusters_keep_next: ["bl", "br", "cl", "cr", "dr", "fl", "fr", "gl", "gr", "pl", "pr", "tr", "vr"]
+    dont_split_digraphs: ["ch", "lh", "nh", "qu", "gu"]
+    digraph_vowels: ["ai", "au", "ei", "eu", "oi", "ou", "ui", "ão", "õe", "ãe"]
+    glides: ""
+    syllabic_consonants: ""
+    modifiers_attach_left: ""
+    modifiers_attach_right: ""
+    modifiers_separators: ""
+
+  - lang: "pol"
+    vowels: "aeiouyąęó"
+    consonants: "bcćdfghjklłmnńprsśtwzźż"
+    sonorants: "lłmnńrj"
+    clusters_keep_next: ["br", "bl", "cr", "cl", "dr", "dł", "fr", "fl", "gr", "gl", "kr", "kl", "pr", "pl", "tr", "tł", "wr", "wl", "sk", "sp", "st", "skr", "spr", "str"]
+    dont_split_digraphs: ["sz", "cz", "rz", "dz", "ch"]
+    digraph_vowels: []
+    glides: "j"
+    syllabic_consonants: ""
+    modifiers_attach_left: ""
+    modifiers_attach_right: ""
+    modifiers_separators: ""
+
   - lang: "lat"
     vowels: "aeiouyāēīōūȳăĕĭŏŭ"
     consonants: "bcdfghjklmnpqrstvxz"

@@ -33,6 +33,34 @@ private class WordSyllabification(
             }
         }
 
+        // Check for final semivowels (e.g., Romanian final -i after consonant)
+        // These don't form a separate syllable nucleus
+        if (nuclei.isNotEmpty() && rule.finalSemivowels.isNotEmpty()) {
+            val lastNucleusIdx = nuclei.last()
+            val lastToken = tokens[lastNucleusIdx]
+
+            // Check if it's the last token (or only followed by non-letters)
+            val isFinal = ((lastNucleusIdx + 1) until tokens.size).all { j ->
+                val tokenClass = tokens[j].tokenClass
+                tokenClass == TokenClass.SEPARATOR || tokenClass == TokenClass.OTHER
+            }
+
+            if (isFinal) {
+                // Check if final vowel is in semivowels set
+                val firstChar = lastToken.surface.lowercase().firstOrNull()
+                if (firstChar != null && firstChar in rule.finalSemivowels) {
+                    // Check if preceded by consonant
+                    if (lastNucleusIdx > 0) {
+                        val prevIdx = lastNucleusIdx - 1
+                        if (tokens[prevIdx].tokenClass == TokenClass.CONSONANT) {
+                            // Remove this nucleus - it's a semivowel, not a syllable
+                            nuclei.removeAt(nuclei.lastIndex)
+                        }
+                    }
+                }
+            }
+        }
+
         // If no vowels found, look for syllabic consonants
         if (nuclei.isEmpty()) {
             tokens.forEachIndexed { index, token ->

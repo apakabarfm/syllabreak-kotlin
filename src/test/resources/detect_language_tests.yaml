@@ -75,6 +75,38 @@ tests:
       - "être"
       - "père"
 
+  - lang: "ron"
+    cases:
+      - "română"
+      - "mulțumesc"
+      - "înțeleg"
+      - "seară"
+      - "țară"
+
+  - lang: "spa"
+    cases:
+      - "español"
+      - "niño"
+      - "señor"
+      - "mañana"
+      - "año"
+
+  - lang: "por"
+    cases:
+      - "coração"
+      - "irmão"
+      - "avião"
+      - "mãe"
+      - "pão"
+
+  - lang: "pol"
+    cases:
+      - "cześć"
+      - "książka"
+      - "dziękuję"
+      - "żółty"
+      - "święto"
+
   - lang: "lat"
     cases:
       - "āquā"

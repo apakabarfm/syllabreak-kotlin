@@ -56,6 +56,7 @@ class Syllabreak
                         modifiersSeparators = (ruleYaml.modifiersSeparators ?: "").toSet(),
                         clustersOnlyAfterLong = (ruleYaml.clustersOnlyAfterLong ?: emptyList()).toSet(),
                         splitHiatus = ruleYaml.splitHiatus ?: false,
+                        finalSemivowels = (ruleYaml.finalSemivowels ?: "").toSet(),
                     )
                 }
             return MetaRule(rules)

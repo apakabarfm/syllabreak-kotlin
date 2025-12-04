@@ -15,6 +15,7 @@ data class LanguageRule(
     val modifiersSeparators: Set<Char>,
     val clustersOnlyAfterLong: Set<String> = emptySet(),
     val splitHiatus: Boolean = false,
+    val finalSemivowels: Set<Char> = emptySet(),
     internal val uniqueChars: Set<Char> = emptySet(),
     internal val meta: MetaRule? = null,
 ) {
