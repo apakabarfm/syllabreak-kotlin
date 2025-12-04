@@ -110,7 +110,7 @@ class Syllabreak
 
             val rule =
                 if (lang != null) {
-                    getRuleByLang(lang)
+                    getRuleByLang(lang) ?: return text
                 } else {
                     autoDetectRule(text) ?: return text
                 }
@@ -132,9 +132,7 @@ class Syllabreak
             return matchingRules.firstOrNull()
         }
 
-        private fun getRuleByLang(lang: String): LanguageRule {
-            return requireNotNull(metaRule.rules.find { it.lang == lang }) {
-                "Language '$lang' is not supported"
-            }
+        private fun getRuleByLang(lang: String): LanguageRule? {
+            return metaRule.rules.find { it.lang == lang }
         }
     }
