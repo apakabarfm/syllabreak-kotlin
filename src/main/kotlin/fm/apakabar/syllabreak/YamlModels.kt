@@ -28,4 +28,6 @@ data class RuleYaml(
     val modifiersSeparators: String?,
     @field:JsonProperty("clusters_only_after_long")
     val clustersOnlyAfterLong: List<String>?,
+    @field:JsonProperty("split_hiatus")
+    val splitHiatus: Boolean?,
 )

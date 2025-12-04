@@ -136,19 +136,29 @@ private class WordSyllabification(
     ): Int? {
         return when (cluster.size) {
             0 -> {
-                // Check for vowel hiatus
-                if (rule.glides.isEmpty() && rule.digraphVowels.isEmpty()) {
+                // Check for vowel hiatus (adjacent vowels that form separate syllables)
+                if (!rule.splitHiatus) {
+                    return null
+                }
+
+                // Check if nuclei are adjacent (or only separated by modifiers/separators)
+                val areAdjacent =
                     if (nk1 - nk == 1) {
-                        return nk1
-                    }
-                    // Check if only separators between vowels
-                    val allSeparators =
+                        true
+                    } else {
                         (nk + 1 until nk1).all {
                             tokens[it].tokenClass == TokenClass.SEPARATOR
                         }
-                    if (allSeparators) {
-                        return nk1
                     }
+
+                if (areAdjacent) {
+                    // Check if these two vowels form a digraph (don't split)
+                    val vowelPair = tokens[nk].surface.lowercase() + tokens[nk1].surface.lowercase()
+                    if (vowelPair in rule.digraphVowels) {
+                        return null
+                    }
+                    // Hiatus: split between vowels
+                    return nk1
                 }
                 null
             }
