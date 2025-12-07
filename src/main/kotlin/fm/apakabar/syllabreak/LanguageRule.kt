@@ -16,6 +16,9 @@ data class LanguageRule(
     val clustersOnlyAfterLong: Set<String> = emptySet(),
     val splitHiatus: Boolean = false,
     val finalSemivowels: Set<Char> = emptySet(),
+    val finalSequencesKeep: Set<String> = emptySet(),
+    val suffixesBreakVre: Set<String> = emptySet(),
+    val suffixesKeepVre: Set<String> = emptySet(),
     internal val uniqueChars: Set<Char> = emptySet(),
     internal val meta: MetaRule? = null,
 ) {

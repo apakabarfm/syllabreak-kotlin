@@ -57,6 +57,9 @@ class Syllabreak
                         clustersOnlyAfterLong = (ruleYaml.clustersOnlyAfterLong ?: emptyList()).toSet(),
                         splitHiatus = ruleYaml.splitHiatus ?: false,
                         finalSemivowels = (ruleYaml.finalSemivowels ?: "").toSet(),
+                        finalSequencesKeep = (ruleYaml.finalSequencesKeep ?: emptyList()).toSet(),
+                        suffixesBreakVre = (ruleYaml.suffixesBreakVre ?: emptyList()).toSet(),
+                        suffixesKeepVre = (ruleYaml.suffixesKeepVre ?: emptyList()).toSet(),
                     )
                 }
             return MetaRule(rules)

@@ -32,4 +32,10 @@ data class RuleYaml(
     val splitHiatus: Boolean?,
     @field:JsonProperty("final_semivowels")
     val finalSemivowels: String?,
+    @field:JsonProperty("final_sequences_keep")
+    val finalSequencesKeep: List<String>?,
+    @field:JsonProperty("suffixes_break_vre")
+    val suffixesBreakVre: List<String>?,
+    @field:JsonProperty("suffixes_keep_vre")
+    val suffixesKeepVre: List<String>?,
 )
